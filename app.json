@@ -9,13 +9,23 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "config": {
+        "googleMapsApiKey": "AIzaSyD10A_8k58R6Yq1_rhYe_1DMiTrWAxAPCo"
+      },
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jblsomoza.mapsapp"
     },
     "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCFkoz6xWEyBsHxW4eZ2sh9uK7gTIKnKI0"
+        }
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.jblsomoza.mapsapp"
     },
     "web": {
       "bundler": "metro",

@@ -1,12 +1,34 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { ActivityIndicator, View } from "react-native";
+import React, { useEffect } from "react";
+import CustomMap from "@/presentation/components/maps/CustomMap";
+import { useLocationStore } from "@/presentation/store/useLocationStore";
 
 const MapScreen = () => {
+  const { lastKnownLocation, getLocation } = useLocationStore();
+
+  useEffect(() => {
+    if(lastKnownLocation === null) {
+      getLocation();
+    }
+  }, []);
+
+  if (lastKnownLocation === null) {
+    return (
+      <View>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    )
+  }
+
   return (
     <View>
-      <Text>MapScreen</Text>
+      <CustomMap
+        initialLocation={lastKnownLocation}
+        showUserLocation
+      />
     </View>
-  )
-}
+  );
+};
 
-export default MapScreen
+export default MapScreen;
+
