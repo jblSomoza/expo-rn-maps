@@ -1,7 +1,7 @@
 import { View, Text, ViewProps, StyleSheet } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { LatLng } from "@/infrastructure/interfaces/lat-lng";
-import MapView from "react-native-maps";
+import MapView, { Polyline } from "react-native-maps";
 import { useLocationStore } from "@/presentation/store/useLocationStore";
 import FAB from "../shared/FAB";
 
@@ -15,10 +15,16 @@ const CustomMap = ({
   showUserLocation = true,
   ...rest
 }: CustomMapProps) => {
-  const { lastKnownLocation, watchLocation, clearWatchLocation, getLocation } =
-    useLocationStore();
+  const {
+    lastKnownLocation,
+    watchLocation,
+    clearWatchLocation,
+    getLocation,
+    userLocationList,
+  } = useLocationStore();
   const mapRef = useRef<MapView>(null);
   const [isFollowUser, setIsFollowUser] = useState(true);
+  const [isShowPolyline, setIsShowPolyline] = useState(true);
 
   useEffect(() => {
     watchLocation();
@@ -77,6 +83,18 @@ const CustomMap = ({
           longitudeDelta: 0.0421,
         }}
         showsUserLocation={showUserLocation}
+      >
+          {
+            isShowPolyline && (
+              <Polyline coordinates={userLocationList} strokeColor={'black'} strokeWidth={3} />
+            )
+          }
+      </MapView>
+
+      <FAB
+        iconName={isShowPolyline ? "eye-outline" : "eye-off-outline"}
+        onPress={() => setIsShowPolyline(!isShowPolyline)}
+        style={{ bottom: 160, right: 20 }}
       />
 
       <FAB
@@ -86,7 +104,7 @@ const CustomMap = ({
       />
 
       <FAB
-        iconName={ "compass-outline" }
+        iconName={"compass-outline"}
         onPress={moveToCurrent}
         style={{ bottom: 20, right: 20 }}
       />
